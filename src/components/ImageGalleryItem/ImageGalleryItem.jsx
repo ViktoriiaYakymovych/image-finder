@@ -1,3 +1,3 @@
-export const ImageGalleryItem = () => {
-  return <div></div>;
+export const ImageGalleryItem = ({img}) => {
+  return <img src="" alt="" />;
 };
