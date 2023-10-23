@@ -1,4 +1,4 @@
-export const Searchbar = ({onSubmit}) => {
+export const Searchbar = ({ onSubmit }) => {
   return (
     <header>
       <form onSubmit={e => onSubmit(e)}>
@@ -7,7 +7,7 @@ export const Searchbar = ({onSubmit}) => {
         </button>
 
         <input
-        name="query"
+          name="query"
           type="text"
           autoComplete="off"
           autoFocus
