@@ -22,26 +22,26 @@ export class App extends Component {
       try {
         this.setState({ loading: true });
         const images = await fetchImages(nextQuery, nextPage);
-        this.setState({ images, loading: false });
+        this.setState({images});
       } catch (error) {
         console.log(error);
+      } finally {
+        this.setState({ loading: false });
       }
     }
   }
 
   changeQuery = e => {
     e.preventDefault();
-    const newQuery = e.target.elements.query.value;
+    const newQuery = e.target.elements.query.value.trim();
     this.setState({
       query: newQuery,
-      images: [],
-      page: 1,
     });
     e.target.reset();
   };
 
   loadMore = () => {
-    this.setState(prevState => ({ page: (prevState.page += 1) }));
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
@@ -50,7 +50,7 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.changeQuery} />
         <ImageGallery images={images} />
-        {images.length >= 1 && <Button loadMore={this.loadMore}/>}
+        {images.length >= 1 && <Button loadMore={this.loadMore} />}
       </>
     );
   }
