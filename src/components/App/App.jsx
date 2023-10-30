@@ -5,6 +5,10 @@ import { fetchImages } from 'api';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
+import { Loader } from 'components/Loader/Loader';
+
+import { StyledApp } from './App.styled';
+import toast, { Toaster } from 'react-hot-toast';
 
 export class App extends Component {
   state = {
@@ -19,12 +23,26 @@ export class App extends Component {
     const { query: nextQuery, page: nextPage } = this.state;
 
     if (prevQuery !== nextQuery || prevPage !== nextPage) {
+      if (nextQuery === '') {
+        return;
+      }
+
       try {
         this.setState({ loading: true });
-        const images = await fetchImages(nextQuery, nextPage);
-        this.setState({images});
+
+        const queryImages = await fetchImages(nextQuery, nextPage);
+
+        if (nextPage === 1) {
+          this.setState({ images: [...queryImages] });
+        } else {
+          this.setState(prevState => ({
+            images: [...prevState.images, ...queryImages],
+          }));
+        }
       } catch (error) {
-        console.log(error);
+        return toast.error(
+          `Ooops, there was an error ${error.message}. Please, try one more time.`
+        );
       } finally {
         this.setState({ loading: false });
       }
@@ -34,8 +52,16 @@ export class App extends Component {
   changeQuery = e => {
     e.preventDefault();
     const newQuery = e.target.elements.query.value.trim();
+
+    if (newQuery === '') {
+      this.setState({ images: [], query: '' });
+      return toast.error(
+        'You forgot to write searching request, please, try one more time.'
+      );
+    }
     this.setState({
       query: newQuery,
+      page: 1,
     });
     e.target.reset();
   };
@@ -45,13 +71,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, loading } = this.state;
     return (
-      <>
+      <StyledApp>
         <Searchbar onSubmit={this.changeQuery} />
         <ImageGallery images={images} />
         {images.length >= 1 && <Button loadMore={this.loadMore} />}
-      </>
+        <Loader loading={loading} />
+        <Toaster />
+      </StyledApp>
     );
   }
 }
