@@ -1,7 +1,11 @@
-import { StyledLoadMoreBtn } from "./Button.styled"
+import { StyledLoadMoreBtn } from './Button.styled';
 
-export const Button = ({loadMore}) => {
-    return (
-        <StyledLoadMoreBtn type="button" onClick={loadMore}>Load</StyledLoadMoreBtn>
-    )
-}
+export const Button = ({ loadMore }) => {
+  return (
+    <StyledLoadMoreBtn type="button" onClick={loadMore}>
+      Load more
+    </StyledLoadMoreBtn>
+  );
+};
+
+// BsSearch;

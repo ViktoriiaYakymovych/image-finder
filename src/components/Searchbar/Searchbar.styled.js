@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledSearchbar = styled.header`
   top: 0;
@@ -30,7 +30,7 @@ export const StyledForm = styled.form`
 `;
 
 export const SearchFormBtn = styled.button`
-padding: 4px;
+  padding: 4px;
   display: inline-block;
   width: 56px;
   height: 56px;

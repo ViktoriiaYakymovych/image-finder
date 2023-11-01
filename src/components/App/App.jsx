@@ -39,6 +39,18 @@ export class App extends Component {
             images: [...prevState.images, ...queryImages],
           }));
         }
+
+        if (queryImages.length === 0) {
+          this.setState({ query: '' });
+          return toast.success(
+            `Sorry, we didn't find images to Your request, try write another one.`,
+            {
+              iconTheme: {
+                primary: '#ffff00',
+              },
+            }
+          );
+        }
       } catch (error) {
         return toast.error(
           `Ooops, there was an error ${error.message}. Please, try one more time.`
